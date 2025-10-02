@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Text.RegularExpressions;
 
 namespace TestWpfApp
 {
@@ -44,8 +45,7 @@ namespace TestWpfApp
             if (string.IsNullOrEmpty(query))
                 return;
 
-            // Exemplo: busca uma imagem do Unsplash (API pública para demonstração)
-            string imageUrl = await GetImageUrlFromUnsplash(query);
+            string imageUrl = await GetFirstGoogleImageUrl(query);
             if (!string.IsNullOrEmpty(imageUrl))
             {
                 var bitmap = new BitmapImage();
@@ -61,19 +61,22 @@ namespace TestWpfApp
             }
         }
 
-        private async Task<string> GetImageUrlFromUnsplash(string query)
+        private async Task<string> GetFirstGoogleImageUrl(string query)
         {
-            // Atenção: para uso real, obtenha uma chave de API do Unsplash ou outro serviço.
-            // Aqui, exemplo de busca simples usando a API de imagens aleatórias do Unsplash.
-            string url = $"https://source.unsplash.com/400x400/?{Uri.EscapeDataString(query)}";
+            string searchUrl = $"https://www.google.com/search?tbm=isch&q={Uri.EscapeDataString(query)}";
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
                 try
                 {
-                    // Unsplash redireciona para a imagem
-                    var response = await client.GetAsync(url);
-                    if (response.IsSuccessStatusCode)
-                        return response.RequestMessage.RequestUri.ToString();
+                    var html = await client.GetStringAsync(searchUrl);
+
+                    // Regex para encontrar URLs de imagens (src="...")
+                    var match = Regex.Match(html, @"<img[^>]+src=""(https://[^""]+)""", RegexOptions.IgnoreCase);
+                    if (match.Success)
+                    {
+                        return match.Groups[1].Value;
+                    }
                 }
                 catch
                 {
