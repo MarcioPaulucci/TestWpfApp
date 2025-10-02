@@ -59,17 +59,17 @@
             </Border>
         </DataTemplate>
     </Window.Resources>
+    <Viewbox Stretch="Fill">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!-- Área de adicionar tarefa -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,15">
-            <TextBox x:Name="TaskInput" Width="400" Height="32" Margin="0,0,10,0"
+            <!-- Área de adicionar tarefa -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,15">
+                <TextBox x:Name="TaskInput" Width="400" Height="32" Margin="0,0,10,0"
                      VerticalAlignment="Center" 
                      Padding="6"
                      FontSize="14"
@@ -77,12 +77,12 @@
                      Foreground="#0D1B2A"
                      BorderThickness="0"
                      />
-            <Button Content="Adicionar" Click="AddTask_Click"/>
-        </StackPanel>
+                <Button Content="Adicionar" Click="AddTask_Click"/>
+            </StackPanel>
 
-        <!-- Área de pesquisa de imagem -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,15">
-            <TextBox x:Name="ImageSearchInput" Width="300" Height="32" Margin="0,0,10,0"
+            <!-- Área de pesquisa de imagem -->
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,15">
+                <TextBox x:Name="ImageSearchInput" Width="300" Height="32" Margin="0,0,10,0"
                      VerticalAlignment="Center"
                      Padding="6"
                      FontSize="14"
@@ -90,15 +90,16 @@
                      Foreground="#0D1B2A"
                      BorderThickness="0"
                      />
-            <Button Content="Pesquisar Imagem" Click="SearchImage_Click"/>
-            <Image x:Name="ResultImage" Width="100" Height="100" Margin="10,0,0,0"/>
-        </StackPanel>
+                <Button Content="Pesquisar Imagem" Click="SearchImage_Click"/>
+                <Image x:Name="ResultImage" Width="100" Height="100" Margin="10,0,0,0"/>
+            </StackPanel>
 
-        <!-- Lista de tarefas -->
-        <ListBox x:Name="TodoList" Grid.Row="2" 
+            <!-- Lista de tarefas -->
+            <ListBox x:Name="TodoList" Grid.Row="2" 
                  ItemTemplate="{StaticResource TodoItemTemplate}"
                  Background="Transparent"
                  BorderThickness="0"
                  />
-    </Grid>
+        </Grid>
+    </Viewbox>
 </Window>
